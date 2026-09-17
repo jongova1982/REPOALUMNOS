@@ -1,26 +1,17 @@
-name: 🚀 Tarea de Despliegue
+name: 🚀 REPOALUMNOS
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-
 jobs:
   deploy:
-    name: 🎉 Trabajo de Despliegue
+    name: 🎉 REPOALUMNOS
     runs-on: ubuntu-latest
 
     steps:
       - name: 🚚 Obteniendo el código más reciente
         uses: actions/checkout@v4
-
-      - name: 🔒 Verificando secretos del despliegue
-        run: |
-          test -n "${{ secrets.FTP_SERVER }}"
-          test -n "${{ secrets.FTP_USER }}"
-          test -n "${{ secrets.FTP_PASSWORD }}"
-          test -n "${{ secrets.FTP_SERVER_DIR }}"
 
       - name: 📂 Sincronizando archivos via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -35,11 +26,3 @@ jobs:
           exclude: |
             .git/**
             .github/**
-            .env
-            .env.*
-            uploads/**
-            **/*.log
-            **/*.tmp
-            **/*.bak
-
-
