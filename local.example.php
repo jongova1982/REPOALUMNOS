@@ -1,0 +1,5 @@
+<?php
+return ['DB_HOST'=>'mysql-misaelgaray.alwaysdata.net',
+'DB_NAME'=>'misaelgaray_repoalumnos',
+'DB_USER'=>'misaelgaray',
+'DB_PASS'=>'Mgm1927.'];

@@ -1,0 +1,8 @@
+.env
+local.php
+alumno_*.jpg
+alumno_*.jpeg
+alumno_*.png
+alumno_*.webp
+*.log
+*.tmp

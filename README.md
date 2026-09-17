@@ -26,9 +26,9 @@ Configura en el entorno del sitio:
 - `DB_USER=TU_USUARIO`
 - `DB_PASS=TU_CONTRASEÑA`
 
-Sube el contenido del proyecto al directorio configurado para el sitio PHP. Verifica que `/uploads/` exista y tenga permisos de escritura para el usuario del servidor.
+Sube el contenido del proyecto al directorio configurado para el sitio PHP. El sistema guarda las fotografías en el directorio raíz del sitio, por lo que no necesitas crear una carpeta `uploads`. El usuario del servidor debe tener permisos de escritura sobre el directorio del sitio.
 
-La tabla `alumnos` se crea automáticamente al registrar el primer alumno.
+La tabla `alumnos` se crea automáticamente al iniciar el sistema si no existe.
 
 ## GitHub
 Antes de subir:
@@ -44,13 +44,16 @@ git push -u origin main
 Comprueba que `.env` y las fotografías reales no estén incluidos. `.gitignore` protege esos archivos.
 
 ## Estructura
+Todos los archivos de la aplicación quedan en la raíz del repositorio. La única carpeta es `.github/workflows/`, que contiene `deployalways.yml` para el despliegue automático.
+
 - `index.php`: listado y búsqueda.
-- `config/database.php`: conexión PDO.
-- `database/init.php`: creación automática de tabla.
-- `alumnos/`: operaciones CRUD.
-- `assets/`: CSS y JavaScript.
-- `uploads/`: fotografías subidas en producción.
-- `.env.example`: plantilla sin secretos.
+- `database.php`: conexión PDO.
+- `init.php`: creación automática de la tabla.
+- `crear.php`, `guardar.php`, `editar.php`, `actualizar.php`, `eliminar.php`: operaciones CRUD.
+- `style.css`: estilos.
+- `script.js`: JavaScript y vista previa de fotografías.
+- `local.example.php`: plantilla de configuración privada.
+- `.github/workflows/deployalways.yml`: despliegue mediante GitHub Actions.
 
 ## Seguridad
 Las fotografías se validan por MIME, tamaño y contenido de imagen. Se utilizan consultas preparadas y escape HTML. Las credenciales reales y datos personales no deben publicarse en GitHub.
