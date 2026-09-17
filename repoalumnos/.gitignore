@@ -1,0 +1,14 @@
+# Credenciales y configuración local
+.env
+config.local.php
+
+# Fotografías y archivos subidos
+/uploads/*
+!/uploads/.gitkeep
+
+# Logs y temporales
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
