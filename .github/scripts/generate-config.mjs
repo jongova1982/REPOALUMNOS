@@ -17,10 +17,10 @@ const phpString = (value) => {
 };
 
 const replacements = [
-  ["'mysql-servidor.ejemplo'", phpString(process.env.DB_HOST)],
-  ["'jongox_envios'", phpString(process.env.DB_NAME)],
-  ["'tu_usuario'", phpString(process.env.DB_USER)],
-  ["'tu_clave'", phpString(process.env.DB_PASSWORD)],
+  ["'mysql-misaelgaray.alwaysdata.net'", phpString(process.env.DB_HOST)],
+  ["'misaelgaray_repoalumnos'", phpString(process.env.DB_NAME)],
+  ["'misaelgaray'", phpString(process.env.DB_USER)],
+  ["'Mgm1927.'", phpString(process.env.DB_PASSWORD)],
 ];
 
 let config = readFileSync('config.example.php', 'utf8');
