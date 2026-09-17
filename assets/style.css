@@ -1,0 +1,341 @@
+/* ========================================
+   Academia Pro - Diseño Escolar Profesional
+   ======================================== */
+
+:root {
+    --primary: #1a56db;
+    --primary-dark: #1e40af;
+    --primary-light: #3b82f6;
+    --accent: #0d9488;
+    --accent-light: #14b8a6;
+    --bg: #f0f5ff;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --success: #059669;
+    --danger: #dc2626;
+    --warning: #d97706;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(160deg, #f0f5ff 0%, #e0f2fe 50%, #f0fdf4 100%);
+    background-attachment: fixed;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1a56db 50%, #0d9488 100%) !important;
+    box-shadow: 0 4px 20px rgba(30, 58, 138, 0.25);
+    padding: 0.7rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.35rem;
+    letter-spacing: -0.4px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.navbar-brand i {
+    background: rgba(255,255,255,0.2);
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+}
+
+.navbar .text-white-50 {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* ========== HEADER ========== */
+.page-header {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
+    margin-bottom: 1.75rem;
+}
+
+.page-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 0.25rem;
+}
+
+.page-header p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.stat-badge {
+    background: linear-gradient(135deg, #1a56db, #0d9488);
+    color: white !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.55rem 1.1rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(26, 86, 219, 0.3);
+}
+
+/* ========== CARDS ========== */
+.card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    background: var(--card-bg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+}
+
+.card-header {
+    background: linear-gradient(to right, #f8fafc, #f1f5f9) !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 1rem 1.25rem;
+}
+
+.card-header h5 {
+    font-weight: 650;
+    color: #1e3a8a;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+.card-header i {
+    color: var(--accent);
+}
+
+/* ========== FORMULARIO ========== */
+.form-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #334155;
+    margin-bottom: 0.4rem;
+}
+
+.input-group-text {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-right: none;
+    color: #64748b;
+    border-radius: 10px 0 0 10px;
+}
+
+.form-control {
+    border: 1px solid #cbd5e1;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.12);
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: var(--primary-light);
+    color: var(--primary);
+}
+
+/* ========== BOTONES ========== */
+.btn-primary {
+    background: linear-gradient(135deg, #1a56db 0%, #0d9488 100%);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0.7rem 1.25rem;
+    box-shadow: 0 4px 14px rgba(26, 86, 219, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1e40af 0%, #0f766e 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26, 86, 219, 0.4);
+}
+
+.btn-outline-primary {
+    border-radius: 8px;
+    border-color: #93c5fd;
+    color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.btn-outline-danger {
+    border-radius: 8px;
+    border-color: #fca5a5;
+    color: var(--danger);
+}
+
+.btn-outline-danger:hover {
+    background: var(--danger);
+    border-color: var(--danger);
+    transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+    border-radius: 10px;
+}
+
+/* ========== TABLA ========== */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: #f8fafc;
+    font-weight: 650;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 0.9rem 1rem;
+}
+
+.table tbody td {
+    padding: 0.95rem 1rem;
+    border-color: #f1f5f9;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr {
+    transition: background 0.15s;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f0f9ff !important;
+}
+
+/* Avatar */
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1a56db, #0d9488);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(26, 86, 219, 0.25);
+}
+
+/* Identificación badge */
+.id-badge {
+    background: #eff6ff;
+    color: #1e40af;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    border: 1px solid #bfdbfe;
+}
+
+/* ========== ALERTAS ========== */
+.alert {
+    border: none;
+    border-radius: 12px;
+    padding: 0.9rem 1.2rem;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #ecfdf5;
+    color: #065f46;
+}
+
+.alert-warning {
+    background: #fffbeb;
+    color: #92400e;
+}
+
+.alert-danger {
+    background: #fef2f2;
+    color: #991b1b;
+}
+
+/* ========== EMPTY STATE ========== */
+.empty-state {
+    padding: 3.5rem 1.5rem;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 3.5rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: #64748b;
+    font-size: 1.05rem;
+}
+
+/* ========== FOOTER ========== */
+footer {
+    background: white;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+    padding: 1.25rem 0;
+}
+
+footer p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 991.98px) {
+    .page-header {
+        padding: 1.25rem;
+    }
+    .page-header h1 {
+        font-size: 1.35rem;
+    }
+    .table {
+        font-size: 0.9rem;
+    }
+}
+
+/* Pequeño detalle escolar */
+.school-accent {
+    height: 4px;
+    background: linear-gradient(90deg, #1a56db, #0d9488, #1a56db);
+    border-radius: 4px 4px 0 0;
+}
