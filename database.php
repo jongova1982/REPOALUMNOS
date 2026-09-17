@@ -29,10 +29,10 @@ function getConfigValue(string $key): ?string
 
 function getPDO(): PDO
 {
-    $host = getConfigValue('DB_HOST') ?: getConfigValue('DATABASE_HOST');
-    $name = getConfigValue('DB_NAME') ?: getConfigValue('DATABASE_NAME');
-    $user = getConfigValue('DB_USER') ?: getConfigValue('DATABASE_USERNAME');
-    $pass = getConfigValue('DB_PASS') ?? getConfigValue('DATABASE_PASSWORD');
+    $host = 'mysql-misaelgaray.alwaysdata.net';
+    $name = 'misaelgaray_repoalumnos';
+    $user = 'misaelgaray';
+    $pass = 'Mgm1927.';
 
     if (!$host || !$name || !$user || $pass === null) {
         throw new RuntimeException(
