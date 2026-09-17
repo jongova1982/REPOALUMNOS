@@ -45,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt->close();
     }
-    // Mantener valores enviados en caso de error
     $alumno['nombre']         = $nombre;
     $alumno['identificacion'] = $identificacion;
     $alumno['telefono']       = $telefono;
@@ -62,71 +61,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="assets/style.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php">
-                <i class="bi bi-mortarboard-fill fs-3"></i>
-                <span>Academia Pro</span>
+            <a class="navbar-brand fw-bold" href="index.php">
+                <i class="bi bi-mortarboard-fill"></i>
+                Academia Pro
             </a>
         </div>
     </nav>
 
     <main class="container py-4">
         <div class="mb-4">
-            <a href="index.php" class="text-decoration-none text-muted small">
-                <i class="bi bi-arrow-left me-1"></i> Volver al listado
+            <a href="index.php" class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1">
+                <i class="bi bi-arrow-left"></i> Volver al listado de alumnos
             </a>
-            <h1 class="h3 mt-2 fw-bold">Editar Alumno #<?php echo $id; ?></h1>
+            <h1 class="h3 mt-2 fw-bold" style="color:#1e3a8a">
+                <i class="bi bi-pencil-square me-2" style="color:#0d9488"></i>
+                Editar alumno #<?php echo $id; ?>
+            </h1>
         </div>
 
         <?php if ($mensaje): ?>
-            <div class="alert alert-<?php echo e($tipo_mensaje); ?> shadow-sm">
+            <div class="alert alert-<?php echo e($tipo_mensaje); ?>">
                 <?php echo e($mensaje); ?>
             </div>
         <?php endif; ?>
 
         <div class="row justify-content-center">
             <div class="col-lg-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-white border-bottom py-3">
-                        <h5 class="mb-0 fw-semibold">
-                            <i class="bi bi-pencil-square text-primary me-2"></i>Datos del alumno
+                <div class="card">
+                    <div class="school-accent"></div>
+                    <div class="card-header">
+                        <h5>
+                            <i class="bi bi-person-vcard me-2"></i>
+                            Datos del estudiante
                         </h5>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="edit.php?id=<?php echo $id; ?>">
                             <div class="mb-3">
-                                <label for="nombre" class="form-label fw-medium">Nombre completo <span class="text-danger">*</span></label>
+                                <label for="nombre" class="form-label">
+                                    Nombre completo <span class="text-danger">*</span>
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
                                     <input type="text" class="form-control" id="nombre" name="nombre"
                                            required maxlength="255" value="<?php echo e($alumno['nombre']); ?>">
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="identificacion" class="form-label fw-medium">Identificación <span class="text-danger">*</span></label>
+                                <label for="identificacion" class="form-label">
+                                    Identificación <span class="text-danger">*</span>
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light"><i class="bi bi-card-heading"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
                                     <input type="text" class="form-control" id="identificacion" name="identificacion"
                                            required maxlength="50" value="<?php echo e($alumno['identificacion']); ?>">
                                 </div>
                             </div>
 
                             <div class="mb-4">
-                                <label for="telefono" class="form-label fw-medium">Teléfono</label>
+                                <label for="telefono" class="form-label">Teléfono de contacto</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light"><i class="bi bi-telephone"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                                     <input type="text" class="form-control" id="telefono" name="telefono"
                                            maxlength="30" value="<?php echo e($alumno['telefono']); ?>">
                                 </div>
                             </div>
 
                             <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-primary flex-grow-1 py-2 fw-semibold">
-                                    <i class="bi bi-check2-circle me-2"></i>Guardar cambios
+                                <button type="submit" class="btn btn-primary flex-grow-1">
+                                    <i class="bi bi-check2-circle me-2"></i>
+                                    Guardar cambios
                                 </button>
-                                <a href="index.php" class="btn btn-outline-secondary py-2">Cancelar</a>
+                                <a href="index.php" class="btn btn-outline-secondary">Cancelar</a>
                             </div>
                         </form>
                     </div>
@@ -135,9 +144,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </main>
 
-    <footer class="bg-white border-top mt-5 py-4">
-        <div class="container text-center text-muted small">
-            <p class="mb-0">&copy; <?php echo date('Y'); ?> Academia Pro</p>
+    <footer>
+        <div class="container text-center">
+            <p>
+                <i class="bi bi-mortarboard me-1"></i>
+                &copy; <?php echo date('Y'); ?> Academia Pro
+            </p>
         </div>
     </footer>
 

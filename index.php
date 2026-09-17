@@ -61,36 +61,39 @@ $total   = count($alumnos);
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php">
-                <i class="bi bi-mortarboard-fill fs-3"></i>
-                <span>Academia Pro</span>
+            <a class="navbar-brand fw-bold" href="index.php">
+                <i class="bi bi-mortarboard-fill"></i>
+                Academia Pro
             </a>
-            <div class="d-flex align-items-center text-white-50 small">
-                <i class="bi bi-people me-1"></i> Sistema de gestión de alumnos
+            <div class="d-none d-md-flex align-items-center text-white-50">
+                <i class="bi bi-building me-2"></i>
+                Sistema de Gestión Escolar
             </div>
         </div>
     </nav>
 
     <main class="container py-4">
         <!-- Header -->
-        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
-                <h1 class="h3 mb-1 fw-bold text-dark">Panel de Alumnos</h1>
-                <p class="text-muted mb-0">Administra el registro de alumnos de forma sencilla y profesional</p>
+                <h1 class="mb-1">
+                    <i class="bi bi-people-fill me-2" style="color:#0d9488"></i>
+                    Panel de Alumnos
+                </h1>
+                <p>Registra, consulta y administra la información de los estudiantes</p>
             </div>
-            <div class="d-flex gap-2">
-                <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2">
-                    <i class="bi bi-person-badge me-1"></i> <?php echo $total; ?> alumno<?php echo $total !== 1 ? 's' : ''; ?>
-                </span>
-            </div>
+            <span class="stat-badge">
+                <i class="bi bi-person-badge me-1"></i>
+                <?php echo $total; ?> alumno<?php echo $total !== 1 ? 's' : ''; ?> registrado<?php echo $total !== 1 ? 's' : ''; ?>
+            </span>
         </div>
 
         <!-- Alertas -->
         <?php if ($mensaje): ?>
-            <div class="alert alert-<?php echo e($tipo_mensaje); ?> alert-dismissible fade show shadow-sm" role="alert">
-                <i class="bi bi-<?php echo $tipo_mensaje === 'success' ? 'check-circle' : ($tipo_mensaje === 'warning' ? 'exclamation-triangle' : 'x-circle'); ?> me-2"></i>
+            <div class="alert alert-<?php echo e($tipo_mensaje); ?> alert-dismissible fade show" role="alert">
+                <i class="bi bi-<?php echo $tipo_mensaje === 'success' ? 'check-circle-fill' : ($tipo_mensaje === 'warning' ? 'exclamation-triangle-fill' : 'x-circle-fill'); ?> me-2"></i>
                 <?php echo e($mensaje); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -99,10 +102,12 @@ $total   = count($alumnos);
         <div class="row g-4">
             <!-- Formulario Nuevo Alumno -->
             <div class="col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-white border-bottom py-3">
-                        <h5 class="mb-0 fw-semibold">
-                            <i class="bi bi-person-plus text-primary me-2"></i>Nuevo Alumno
+                <div class="card h-100">
+                    <div class="school-accent"></div>
+                    <div class="card-header">
+                        <h5>
+                            <i class="bi bi-person-plus-fill me-2"></i>
+                            Registrar nuevo alumno
                         </h5>
                     </div>
                     <div class="card-body">
@@ -110,37 +115,42 @@ $total   = count($alumnos);
                             <input type="hidden" name="accion" value="crear">
 
                             <div class="mb-3">
-                                <label for="nombre" class="form-label fw-medium">Nombre completo <span class="text-danger">*</span></label>
+                                <label for="nombre" class="form-label">
+                                    Nombre completo <span class="text-danger">*</span>
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
                                     <input type="text" class="form-control" id="nombre" name="nombre"
-                                           placeholder="Ej: Juan Pérez" required maxlength="255"
+                                           placeholder="Ej: María González López" required maxlength="255"
                                            value="<?php echo e($_POST['nombre'] ?? ''); ?>">
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="identificacion" class="form-label fw-medium">Identificación <span class="text-danger">*</span></label>
+                                <label for="identificacion" class="form-label">
+                                    Identificación <span class="text-danger">*</span>
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light"><i class="bi bi-card-heading"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
                                     <input type="text" class="form-control" id="identificacion" name="identificacion"
-                                           placeholder="Cédula, DNI, pasaporte..." required maxlength="50"
+                                           placeholder="Cédula, DNI o pasaporte" required maxlength="50"
                                            value="<?php echo e($_POST['identificacion'] ?? ''); ?>">
                                 </div>
                             </div>
 
                             <div class="mb-4">
-                                <label for="telefono" class="form-label fw-medium">Teléfono</label>
+                                <label for="telefono" class="form-label">Teléfono de contacto</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light"><i class="bi bi-telephone"></i></span>
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                                     <input type="text" class="form-control" id="telefono" name="telefono"
-                                           placeholder="Ej: 3001234567" maxlength="30"
+                                           placeholder="Ej: 300 123 4567" maxlength="30"
                                            value="<?php echo e($_POST['telefono'] ?? ''); ?>">
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-                                <i class="bi bi-person-check me-2"></i>Registrar Alumno
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-person-check-fill me-2"></i>
+                                Registrar alumno
                             </button>
                         </form>
                     </div>
@@ -149,51 +159,57 @@ $total   = count($alumnos);
 
             <!-- Listado de Alumnos -->
             <div class="col-lg-8">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 fw-semibold">
-                            <i class="bi bi-people text-primary me-2"></i>Listado de Alumnos
+                <div class="card">
+                    <div class="school-accent"></div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5>
+                            <i class="bi bi-journal-bookmark-fill me-2"></i>
+                            Listado de estudiantes
                         </h5>
                     </div>
                     <div class="card-body p-0">
                         <?php if (empty($alumnos)): ?>
-                            <div class="text-center py-5 text-muted">
-                                <i class="bi bi-person-x display-4 d-block mb-3 opacity-50"></i>
-                                <p class="mb-0">No hay alumnos registrados todavía.</p>
-                                <small>Utiliza el formulario de la izquierda para crear el primero.</small>
+                            <div class="empty-state">
+                                <i class="bi bi-mortarboard"></i>
+                                <p class="mb-1 fw-medium">Aún no hay alumnos registrados</p>
+                                <small class="text-muted">Utiliza el formulario de la izquierda para agregar el primero</small>
                             </div>
                         <?php else: ?>
                             <div class="table-responsive">
                                 <table class="table table-hover align-middle mb-0">
-                                    <thead class="table-light">
+                                    <thead>
                                         <tr>
-                                            <th class="ps-4" style="width:70px">#</th>
-                                            <th>Nombre</th>
+                                            <th class="ps-4" style="width:65px">#</th>
+                                            <th>Estudiante</th>
                                             <th>Identificación</th>
                                             <th>Teléfono</th>
-                                            <th class="text-nowrap">Fecha</th>
-                                            <th class="text-end pe-4" style="width:120px">Acciones</th>
+                                            <th class="text-nowrap">Registro</th>
+                                            <th class="text-end pe-4" style="width:110px">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($alumnos as $alumno): ?>
                                             <tr>
-                                                <td class="ps-4 fw-medium text-muted">#<?php echo (int)$alumno['id']; ?></td>
+                                                <td class="ps-4 text-muted fw-medium">
+                                                    #<?php echo (int)$alumno['id']; ?>
+                                                </td>
                                                 <td>
                                                     <div class="d-flex align-items-center gap-2">
                                                         <div class="avatar-circle">
                                                             <?php echo strtoupper(mb_substr($alumno['nombre'], 0, 1)); ?>
                                                         </div>
-                                                        <span class="fw-medium"><?php echo e($alumno['nombre']); ?></span>
+                                                        <span class="fw-semibold"><?php echo e($alumno['nombre']); ?></span>
                                                     </div>
                                                 </td>
-                                                <td class="text-muted">
-                                                    <code class="bg-light px-2 py-1 rounded"><?php echo e($alumno['identificacion']); ?></code>
+                                                <td>
+                                                    <span class="id-badge"><?php echo e($alumno['identificacion']); ?></span>
                                                 </td>
-                                                <td class="text-muted">
+                                                <td>
                                                     <?php if (!empty($alumno['telefono'])): ?>
-                                                        <i class="bi bi-telephone-fill text-success me-1"></i>
-                                                        <?php echo e($alumno['telefono']); ?>
+                                                        <span class="text-success">
+                                                            <i class="bi bi-telephone-fill me-1"></i>
+                                                            <?php echo e($alumno['telefono']); ?>
+                                                        </span>
                                                     <?php else: ?>
                                                         <span class="text-muted">—</span>
                                                     <?php endif; ?>
@@ -201,20 +217,22 @@ $total   = count($alumnos);
                                                 <td class="text-nowrap small text-muted">
                                                     <?php
                                                     $fecha = new DateTime($alumno['fecha_creacion']);
-                                                    echo $fecha->format('d/m/Y H:i');
+                                                    echo $fecha->format('d/m/Y');
                                                     ?>
+                                                    <br>
+                                                    <span class="opacity-75"><?php echo $fecha->format('H:i'); ?></span>
                                                 </td>
                                                 <td class="text-end pe-4">
                                                     <div class="btn-group btn-group-sm">
                                                         <a href="edit.php?id=<?php echo (int)$alumno['id']; ?>"
-                                                           class="btn btn-outline-primary" title="Editar">
-                                                            <i class="bi bi-pencil"></i>
+                                                           class="btn btn-outline-primary" title="Editar alumno">
+                                                            <i class="bi bi-pencil-square"></i>
                                                         </a>
                                                         <a href="index.php?eliminar=<?php echo (int)$alumno['id']; ?>"
                                                            class="btn btn-outline-danger"
-                                                           title="Eliminar"
-                                                           onclick="return confirm('¿Estás seguro de eliminar este alumno?');">
-                                                            <i class="bi bi-trash"></i>
+                                                           title="Eliminar alumno"
+                                                           onclick="return confirm('¿Estás seguro de eliminar a este alumno?');">
+                                                            <i class="bi bi-trash3"></i>
                                                         </a>
                                                     </div>
                                                 </td>
@@ -230,9 +248,12 @@ $total   = count($alumnos);
         </div>
     </main>
 
-    <footer class="bg-white border-top mt-5 py-4">
-        <div class="container text-center text-muted small">
-            <p class="mb-0">&copy; <?php echo date('Y'); ?> Academia Pro · Sistema de gestión de alumnos</p>
+    <footer>
+        <div class="container text-center">
+            <p>
+                <i class="bi bi-mortarboard me-1"></i>
+                &copy; <?php echo date('Y'); ?> Academia Pro · Sistema de Gestión de Alumnos
+            </p>
         </div>
     </footer>
 
