@@ -19,7 +19,7 @@ jobs:
         with:
           server: ftp-jongox.alwaysdata.net # Change if using another host
           username: jongox
-          password: jongox#@1234
+          password: clase6969
           server-dir: www/ # Replace with your correct path
           protocol: ftps
           timeout: 86400000
