@@ -24,5 +24,3 @@ jobs:
             **/.git*
             **/.git*/**
             **/.github/**
-            local.php
-            .env
