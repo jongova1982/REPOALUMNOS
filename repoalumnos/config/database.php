@@ -3,7 +3,33 @@ declare(strict_types=1);
 
 function envValue(string $key, string $default = ''): string {
     $value = getenv($key);
-    return $value === false ? $default : $value;
+    if ($value !== false && $value !== '') {
+        return $value;
+    }
+
+    $envFile = __DIR__ . '/../.env';
+    if (is_file($envFile)) {
+        $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines !== false) {
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if ($line === '' || str_starts_with($line, '#')) {
+                    continue;
+                }
+
+                [$name, $val] = array_pad(explode('=', $line, 2), 2, '');
+                $name = trim($name);
+                $val = trim($val, " \t\n\r\0\x0B\"'");
+
+                if ($name === $key && $val !== '') {
+                    putenv("{$name}={$val}");
+                    return $val;
+                }
+            }
+        }
+    }
+
+    return $default;
 }
 
 function getPDO(): PDO {
@@ -12,11 +38,11 @@ function getPDO(): PDO {
 
     $host = envValue('DB_HOST', 'mysql-misaelgaray.alwaysdata.net');
     $db   = envValue('DB_NAME', 'misaelgaray_repoalumnos');
-    $user = envValue('DB_USER');
-    $pass = envValue('DB_PASS');
+    $user = envValue('DB_USER', 'misaelgaray');
+    $pass = envValue('DB_PASS', 'Mgm1927.');
 
-    if ($user === '') {
-        throw new RuntimeException('Faltan las credenciales de base de datos. Configure DB_USER y DB_PASS.');
+    if ($user === '' || $pass === '') {
+        throw new RuntimeException('Faltan las credenciales de base de datos. Configura DB_USER y DB_PASS en el entorno o en .env.');
     }
 
     $dsn = "mysql:host={$host};dbname={$db};charset=utf8mb4";

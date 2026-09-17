@@ -13,6 +13,7 @@ function initializeDatabase(PDO $pdo): void {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         INDEX idx_nombre (nombre),
         INDEX idx_identificacion (identificacion)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+    )";
+
     $pdo->exec($sql);
 }
