@@ -17,9 +17,9 @@ jobs:
       - name: 📂 Sincronizando archivos via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp-jongox.alwaysdata.net # Change if using another host
+          server: ftp-jongox.alwaysdata.net# Change if using another host
           username: jongox
-          password: clase6969
+          password: jongox#@1234
           server-dir: www/ # Replace with your correct path
           protocol: ftps
           timeout: 86400000
@@ -32,4 +32,3 @@ jobs:
            
 
 
-           
