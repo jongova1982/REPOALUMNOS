@@ -3,7 +3,7 @@ name: 🚀 Tarea de Despliegue
 on:
    push:
      branches:
-       - main
+       - jaloji
 
 jobs:
   deploy:
@@ -17,9 +17,9 @@ jobs:
       - name: 📂 Sincronizando archivos via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp-jongox.alwaysdata.net # Change if using another host
-          username: jongox
-          password: jongox#@1234
+          server: ftp-jaloji.alwaysdata.net # Change if using another host
+          username: jaloji
+          password: clase1234
           server-dir: www/ # Replace with your correct path
           protocol: ftps
           timeout: 86400000
@@ -27,6 +27,3 @@ jobs:
           exclude: |
            .git/**
            .github/**
-
-
-           
