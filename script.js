@@ -1,1 +1,11 @@
-document.addEventListener('DOMContentLoaded',()=>{const i=document.getElementById('imagen'),p=document.getElementById('preview');if(!i||!p)return;i.addEventListener('change',()=>{const f=i.files[0];if(!f){p.classList.add('hidden');return}if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>5242880){alert('Seleccione JPG, JPEG, PNG o WEBP de máximo 5 MB.');i.value='';p.classList.add('hidden');return}p.src=URL.createObjectURL(f);p.classList.remove('hidden')})});
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', () => {
+            const file = input.files && input.files[0];
+            if (file && file.size > 5 * 1024 * 1024) {
+                alert('La imagen no puede superar 5 MB.');
+                input.value = '';
+            }
+        });
+    });
+});

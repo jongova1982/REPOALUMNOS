@@ -1,5 +1,88 @@
 <?php
-declare(strict_types=1); require_once __DIR__.'/database.php'; require_once __DIR__.'/init.php';
-try{$pdo=getPDO();initializeDatabase($pdo);}catch(Throwable $e){http_response_code(500);?><!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Error de configuración</title><link rel="stylesheet" href="style.css"></head><body><main class="container"><section class="card form-card"><h1>No se pudo iniciar el sistema</h1><p><?=htmlspecialchars($e->getMessage(),ENT_QUOTES,'UTF-8')?></p><p>Configure MySQL en AlwaysData y revise README.md.</p></section></main></body></html><?php exit;}
-$search=trim($_GET['search']??''); if($search!==''){$s=$pdo->prepare('SELECT id,nombre,identificacion,telefono,imagen,created_at FROM alumnos WHERE nombre LIKE :q OR identificacion LIKE :q ORDER BY id DESC');$s->execute(['q'=>'%'.$search.'%']);}else{$s=$pdo->query('SELECT id,nombre,identificacion,telefono,imagen,created_at FROM alumnos ORDER BY id DESC');}$alumnos=$s->fetchAll();$msg=$_GET['msg']??'';
-?><!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gestión de Alumnos</title><link rel="stylesheet" href="style.css"></head><body><header class="topbar"><div><h1>Gestión de Alumnos</h1><p>Registro y administración de alumnos</p></div><a class="btn primary" href="crear.php">+ Nuevo Alumno</a></header><main class="container"><?php if($msg):?><div class="alert success"><?=htmlspecialchars($msg,ENT_QUOTES,'UTF-8')?></div><?php endif;?><section class="toolbar"><form method="get" class="search"><input type="search" name="search" value="<?=htmlspecialchars($search,ENT_QUOTES,'UTF-8')?>" placeholder="Buscar por nombre o identificación..."><button class="btn" type="submit">Buscar</button><?php if($search!==''):?><a class="btn ghost" href="index.php">Limpiar</a><?php endif;?></form></section><section class="card table-wrap"><table><thead><tr><th>Fotografía</th><th>Nombre</th><th>Identificación</th><th>Teléfono</th><th>Acciones</th></tr></thead><tbody><?php if(!$alumnos):?><tr><td colspan="5" class="empty">No hay alumnos registrados.</td></tr><?php else:foreach($alumnos as $a):?><tr><td><img class="avatar" src="<?=htmlspecialchars($a['imagen'],ENT_QUOTES,'UTF-8')?>" alt="Foto"></td><td><?=htmlspecialchars($a['nombre'],ENT_QUOTES,'UTF-8')?></td><td><?=htmlspecialchars($a['identificacion'],ENT_QUOTES,'UTF-8')?></td><td><?=htmlspecialchars($a['telefono'],ENT_QUOTES,'UTF-8')?></td><td class="actions"><a class="btn small" href="editar.php?id=<?=(int)$a['id']?>">Editar</a><form method="post" action="eliminar.php" onsubmit="return confirm('¿Está seguro de eliminar este alumno?');"><input type="hidden" name="id" value="<?=(int)$a['id']?>"><button class="btn small danger">Eliminar</button></form></td></tr><?php endforeach;endif;?></tbody></table></section></main><script src="script.js"></script></body></html>
+require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/init.php';
+
+$error = null;
+$alumnos = [];
+
+try {
+    $pdo = getPDO();
+    initializeDatabase($pdo);
+    $stmt = $pdo->query("SELECT * FROM alumnos ORDER BY id DESC");
+    $alumnos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Throwable $e) {
+    $error = $e->getMessage();
+}
+?>
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Alumnos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div>
+            <h1>Gestión de Alumnos</h1>
+            <p>PHP + MySQL</p>
+        </div>
+        <a class="btn" href="crear.php">+ Nuevo alumno</a>
+    </header>
+
+    <?php if ($error): ?>
+        <div class="alert error">
+            <h2>No se pudo iniciar el sistema</h2>
+            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+            <p>En AlwaysData verifica que <strong>local.php</strong> exista en la misma carpeta que <strong>index.php</strong> y tenga las credenciales correctas de MySQL.</p>
+        </div>
+    <?php else: ?>
+        <div class="card">
+            <?php if (!$alumnos): ?>
+                <div class="empty">
+                    <h2>No hay alumnos registrados</h2>
+                    <p>Comienza agregando el primer alumno.</p>
+                    <a class="btn" href="crear.php">Registrar alumno</a>
+                </div>
+            <?php else: ?>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Identificación</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($alumnos as $alumno): ?>
+                            <tr>
+                                <td>
+                                    <img class="avatar" src="<?= htmlspecialchars($alumno['imagen'], ENT_QUOTES, 'UTF-8') ?>" alt="Foto">
+                                </td>
+                                <td><?= htmlspecialchars($alumno['nombre'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($alumno['identificacion'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($alumno['telefono'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td class="actions">
+                                    <a class="btn small" href="editar.php?id=<?= (int)$alumno['id'] ?>">Editar</a>
+                                    <form action="eliminar.php" method="post" onsubmit="return confirm('¿Eliminar este alumno?');">
+                                        <input type="hidden" name="id" value="<?= (int)$alumno['id'] ?>">
+                                        <button class="btn danger small" type="submit">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

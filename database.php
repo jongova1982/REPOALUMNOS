@@ -1,4 +1,50 @@
 <?php
 declare(strict_types=1);
-function setting(string $key,string $default=''): string { $v=getenv($key); if($v!==false&&$v!=='')return(string)$v; if(isset($_ENV[$key])&&$_ENV[$key]!=='')return(string)$_ENV[$key]; if(isset($_SERVER[$key])&&$_SERVER[$key]!=='')return(string)$_SERVER[$key]; return $default; }
-function getPDO(): PDO { static $pdo=null; if($pdo instanceof PDO)return $pdo; $local=__DIR__.'/local.php'; $c=is_file($local)?require $local:[]; $host=setting('DB_HOST',$c['DB_HOST']??setting('DATABASE_HOST','mysql-misaelgaray.alwaysdata.net')); $db=setting('DB_NAME',$c['DB_NAME']??setting('DATABASE_NAME','misaelgaray_repoalumnos')); $user=setting('DB_USER',$c['DB_USER']??setting('DATABASE_USERNAME')); $pass=setting('DB_PASS',$c['DB_PASS']??setting('DATABASE_PASSWORD')); if($user===''||$pass==='')throw new RuntimeException('Faltan las credenciales de MySQL. Configure DB_USER/DB_PASS o cree config/local.php en AlwaysData.'); try{$pdo=new PDO("mysql:host={$host};dbname={$db};charset=utf8mb4",$user,$pass,[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC,PDO::ATTR_EMULATE_PREPARES=>false]);}catch(PDOException $e){error_log('MySQL: '.$e->getMessage());throw new RuntimeException('No fue posible conectar con MySQL. Revise host, usuario, contraseña y base de datos.');} return $pdo;}
+
+function getConfigValue(string $key): ?string
+{
+    $value = getenv($key);
+    if ($value !== false && $value !== '') {
+        return $value;
+    }
+
+    if (isset($_ENV[$key]) && $_ENV[$key] !== '') {
+        return (string) $_ENV[$key];
+    }
+
+    if (isset($_SERVER[$key]) && $_SERVER[$key] !== '') {
+        return (string) $_SERVER[$key];
+    }
+
+    $localFile = __DIR__ . '/local.php';
+    if (is_file($localFile)) {
+        $local = require $localFile;
+        if (is_array($local) && isset($local[$key]) && $local[$key] !== '') {
+            return (string) $local[$key];
+        }
+    }
+
+    return null;
+}
+
+function getPDO(): PDO
+{
+    $host = getConfigValue('DB_HOST') ?: getConfigValue('DATABASE_HOST');
+    $name = getConfigValue('DB_NAME') ?: getConfigValue('DATABASE_NAME');
+    $user = getConfigValue('DB_USER') ?: getConfigValue('DATABASE_USERNAME');
+    $pass = getConfigValue('DB_PASS') ?? getConfigValue('DATABASE_PASSWORD');
+
+    if (!$host || !$name || !$user || $pass === null) {
+        throw new RuntimeException(
+            'Faltan las credenciales de MySQL. Crea local.php junto a index.php en AlwaysData o configura DB_HOST, DB_NAME, DB_USER y DB_PASS.'
+        );
+    }
+
+    $dsn = "mysql:host={$host};dbname={$name};charset=utf8mb4";
+
+    return new PDO($dsn, $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+}

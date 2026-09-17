@@ -1,4 +1,61 @@
 <?php
-declare(strict_types=1);require_once __DIR__.'/database.php';require_once __DIR__.'/init.php';
-function err(string $m):never{header('Location: crear.php?error='.urlencode($m));exit;} if($_SERVER['REQUEST_METHOD']!=='POST')exit;
-$n=trim($_POST['nombre']??'');$i=trim($_POST['identificacion']??'');$t=trim($_POST['telefono']??'');if($n===''||$i===''||$t==='')err('Todos los campos son obligatorios.');if(!isset($_FILES['imagen'])||$_FILES['imagen']['error']!==UPLOAD_ERR_OK)err('Debe seleccionar una fotografía.');$f=$_FILES['imagen'];if($f['size']>5242880)err('La imagen supera 5 MB.');$mime=(new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);$ok=['image/jpeg'=>'jpg','image/png'=>'png','image/webp'=>'webp'];if(!isset($ok[$mime])||@getimagesize($f['tmp_name'])===false)err('La imagen no es válida.');$name='alumno_'.bin2hex(random_bytes(16)).'.'.$ok[$mime];$dir=__DIR__ . '/';if(!is_dir($dir))mkdir($dir,0755,true);if(!move_uploaded_file($f['tmp_name'],$dir.$name))err('No se pudo guardar la fotografía.');try{$pdo=getPDO();initializeDatabase($pdo);$q=$pdo->prepare('INSERT INTO alumnos(nombre,identificacion,telefono,imagen) VALUES(?,?,?,?)');$q->execute([$n,$i,$t,$name]);header('Location: index.php?msg='.urlencode('Alumno registrado correctamente.'));}catch(Throwable $e){@unlink($dir.$name);err('No fue posible registrar el alumno.');}exit;
+declare(strict_types=1);
+
+require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/init.php';
+
+function fail(string $message): never
+{
+    header('Location: crear.php?error=' . rawurlencode($message));
+    exit;
+}
+
+try {
+    $pdo = getPDO();
+    initializeDatabase($pdo);
+
+    $nombre = trim($_POST['nombre'] ?? '');
+    $identificacion = trim($_POST['identificacion'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+
+    if ($nombre === '' || $identificacion === '' || $telefono === '') {
+        fail('Todos los campos son obligatorios.');
+    }
+
+    if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
+        fail('La imagen es obligatoria.');
+    }
+
+    if ($_FILES['imagen']['size'] > 5 * 1024 * 1024) {
+        fail('La imagen no puede superar 5 MB.');
+    }
+
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime = $finfo->file($_FILES['imagen']['tmp_name']);
+    $allowed = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/webp' => 'webp',
+    ];
+
+    if (!isset($allowed[$mime])) {
+        fail('Solo se permiten imágenes JPG, PNG o WEBP.');
+    }
+
+    $filename = 'alumno_' . bin2hex(random_bytes(16)) . '.' . $allowed[$mime];
+    $destination = __DIR__ . '/' . $filename;
+
+    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $destination)) {
+        fail('No fue posible guardar la imagen.');
+    }
+
+    $stmt = $pdo->prepare(
+        'INSERT INTO alumnos (nombre, identificacion, telefono, imagen) VALUES (?, ?, ?, ?)'
+    );
+    $stmt->execute([$nombre, $identificacion, $telefono, $filename]);
+
+    header('Location: index.php');
+    exit;
+} catch (Throwable $e) {
+    fail('Error al guardar: ' . $e->getMessage());
+}

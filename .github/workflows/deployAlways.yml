@@ -1,28 +1,28 @@
-name: 🚀 REPOALUMNOS
+name: Deploy AlwaysData
 
 on:
   push:
     branches:
       - RAMA_MGM
+
 jobs:
   deploy:
-    name: 🎉 REPOALUMNOS
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🚚 Obteniendo el código más reciente
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
-      - name: 📂 Sincronizando archivos via FTP
+      - name: Sincronizar archivos vía FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          server: ftp-misaelgaray.alwaysdata.net # Change if using another host
+          server: ftp-misaelgaray.alwaysdata.net 
           username: misaelgaray
           password: Mgm1927.
-          server-dir: www/ # Replace with your correct path
-          protocol: ftps
-          timeout: 86400000
-          log-level: standard
+          server-dir: www/
           exclude: |
-            .git/**
-            .github/**
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            local.php
+            .env

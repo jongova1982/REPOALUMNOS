@@ -1,8 +1,6 @@
-.env
 local.php
+.env
 alumno_*.jpg
 alumno_*.jpeg
 alumno_*.png
 alumno_*.webp
-*.log
-*.tmp
